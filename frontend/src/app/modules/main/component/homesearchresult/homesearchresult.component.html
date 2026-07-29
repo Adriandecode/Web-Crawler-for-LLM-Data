@@ -1,0 +1,132 @@
+<main class="container w-100 flex-col align-center text-center pb-5">
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="hero mt-5 pt-5">
+    <h1 class="no-animation mt-lg-5 mt-3">
+      Transform any website into <br>
+      structured <span class="primary-text-gradient">LLM-ready</span> data
+    </h1>
+    <p class="no-animation">
+      Get clean web data from any website and power your AI apps, <a class="primary-text-gradient" target="_blank"
+        href="https://github.com/GramosoftAI/GcrawlAI">all open source.</a>
+    </p>
+  </section>
+
+  <!-- ================= MAIN FORM ================= -->
+  <section class="w-100 mt-5">
+    <form [formGroup]="crawlform" (ngSubmit)="Onsubmit()" class="scrape-bar" [class.no-animation]="crawlID !== null"
+      [class.initial-state]="!markdownBlocks || !markdownBlocks.length">
+
+      <!-- URL INPUT + FORMAT DROPDOWN in top-right -->
+      <div class="search-input-wrapper"
+        [class.with-format-dropdown]="crawlform.get('button')?.value !== 'links' && crawlform.get('button')?.value !== 'search'">
+        <i class="bi bi-globe2"></i>
+        <span class="https-prefix" *ngIf="crawlform.get('button')?.value !== 'search'">https://</span>
+        <input type="text" formControlName="url" class="search-input query-input"
+          [placeholder]="crawlform.get('button')?.value === 'search' ? 'Enter search query' : 'example.com'"
+          autocomplete="off" (input)="stripProtocol($event)" />
+        <input type="number" *ngIf="crawlform.get('button')?.value === 'search'" formControlName="limit"
+          class="limit-input border-start ms-2 border-1 bg-transparent" min="1" max="100" step="1"
+          placeholder="Limit (1-100)" matTooltip="Number of results (Max 100)" />
+        <!-- Format multi-select dropdown -->
+        <div class="dropdown format-dropdown"
+          *ngIf="crawlform.get('button')?.value !== 'links' && crawlform.get('button')?.value !== 'search'">
+          <button class="format-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+            (click)="$event.stopPropagation()" [disabled]="isLoading">
+            {{ formatLabel }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end format-menu" (click)="$event.stopPropagation()">
+            <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_md" class="format-check">
+                <img src="/assets/image/markdown.png" class="filter-img"> Markdown
+              </label>
+            </li>
+            <!-- <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_summary" class="format-check">
+                <img src="/assets/image/summary.png" class="filter-img"> Summary
+              </label>
+            </li> -->
+            <!-- <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_links" class="format-check">
+                <img src="/assets/image/link.png" class="filter-img"> Links
+              </label>
+            </li> -->
+            <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_html" class="format-check">
+                <img src="/assets/image/html.png" class="filter-img"> HTML
+              </label>
+            </li>
+            <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_ss" class="format-check">
+                <img src="/assets/image/screenshot.png" class="filter-img"> Screenshots
+              </label>
+            </li>
+            <!-- <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_json" class="format-check">
+                <img src="/assets/image/json.png" class="filter-img"> JSON
+              </label>
+            </li> -->
+            <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_seo" class="format-check">
+                <img src="/assets/image/brand.png" class="filter-img"> SEO
+              </label>
+            </li>
+            <li>
+              <label class="dropdown-item format-item">
+                <input type="checkbox" formControlName="enable_images" class="format-check">
+                <img src="/assets/image/image.png" class="filter-img"> Images
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TABS + SUBMIT (always visible) -->
+      <div class="controls-wrapper mt-2">
+        <div class="custom-tabs">
+          <button [disabled]="isLoading" [matTooltip]="scrapeTooltipcontent" type="button" class="tab-btn"
+            [class.active]="crawlform.get('button')?.value === 'scrape'" (click)="setButton('scrape')">
+            <i class="bi bi-grid"></i> Scrape
+          </button>
+          <button [disabled]="isLoading" [matTooltip]="searchTooltipcontent" type="button" class="tab-btn"
+            [class.active]="crawlform.get('button')?.value === 'search'" (click)="setButton('search')">
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button [disabled]="isLoading" [matTooltip]="crawlTooltipcontent" type="button" class="tab-btn"
+            [class.active]="crawlform.get('button')?.value === 'crawl'" (click)="setButton('crawl')">
+            <i class="bi bi-bug"></i> Crawl
+          </button>
+
+            <button [disabled]="isLoading" [matTooltip]="linksTooltipcontent" type="button" class="tab-btn"
+              [class.active]="crawlform.get('button')?.value === 'links'" (click)="setButton('links')">
+              <i class="bi bi-map"></i> Links
+            </button>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="isLoading" [class.is-loading]="isLoading">
+          <span *ngIf="!isLoading">Submit</span>
+          <div *ngIf="isLoading" class="spinner-border spinner-border-sm mx-auto" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- ================= RESULT SECTION ================= -->
+  <app-report-page *ngIf="markdownBlocks && markdownBlocks.length" [blocks]="markdownBlocks" [formsvalue]="formdata"
+    [isCompleted]="crawlCompleted" class="w-100 mt-5">
+  </app-report-page>
+
+  <app-crawl-history class="mt-4 mb-5 d-block" [scrapper]="this.scrape"
+    (reportClicked)="onHistoricalReportClicked($event)"></app-crawl-history>
+
+</main>

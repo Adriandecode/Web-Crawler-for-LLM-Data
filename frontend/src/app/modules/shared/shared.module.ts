@@ -1,0 +1,74 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedRoutingModule } from './shared-routing.module';
+import { HeaderComponent } from './component/header/header.component';
+import { FooterComponent } from './component/footer/footer.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { OtpModalComponent } from './component/otp-modal/otp-modal.component';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { TimerPipe } from 'src/app/pipes/timer.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { AlertComponent } from './component/alert/alert.component';
+import { ErrorPageComponent } from './component/error-page/error-page.component';
+import { LoaderComponent } from './component/loader/loader.component';
+import { ToastrModule } from 'ngx-toastr';
+import { AnimatebgComponent } from './component/animatebg/animatebg.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TitleCaseHeaderPipe } from 'src/app/pipes/title-case-header.pipe';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+
+@NgModule({
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    OtpModalComponent,
+    AlertComponent,
+    TimerPipe,
+    TitleCaseHeaderPipe,
+    ErrorPageComponent,
+    LoaderComponent,
+    AnimatebgComponent,
+  ],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    SharedRoutingModule,
+    MatDialogModule,
+    MatTooltipModule,
+    NgOtpInputModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatInputModule,
+    NgxIntlTelInputModule,
+    CarouselModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      timeOut: 3000
+    })
+  ],
+  exports: [
+    CommonModule,
+    AnimatebgComponent,
+    TitleCaseHeaderPipe,
+    HeaderComponent,
+    FooterComponent,
+    OtpModalComponent,
+    LoaderComponent,
+    MatDialogModule,
+    NgOtpInputModule,
+    ReactiveFormsModule,
+    NgxIntlTelInputModule,
+    FormsModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatInputModule,
+    MatTooltipModule,
+    CarouselModule
+  ]
+})
+export class SharedModule { }

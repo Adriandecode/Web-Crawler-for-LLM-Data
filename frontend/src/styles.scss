@@ -1,0 +1,254 @@
+/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@import "font.scss";
+@include mat.core();
+$my-app-primary: mat.define-palette(mat.$indigo-palette);
+$my-app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$my-app-warn: mat.define-palette(mat.$red-palette);
+$my-app-theme: mat.define-light-theme((color: (primary: $my-app-primary,
+                accent: $my-app-accent,
+                warn: $my-app-warn,
+            ),
+        ));
+@include mat.all-component-themes($my-app-theme);
+@import 'ngx-toastr/toastr';
+
+:root {
+    --font-family: 'Inter', system-ui, sans-serif;
+    --primary: #054A91;
+    --primary-hover: #054A91;
+    --primary-font: "Montserrat";
+    --primary-gradient: linear-gradient(135deg, #054A91 0%, #054A91 100%);
+    --danger: #ff595e;
+    --transition: all 0.2s ease;
+    --bg-color: #ffffff;
+    --grid-color: rgba(0, 0, 0, 0.05);
+    --text-main: #000000;
+    --text-muted: #666666;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.dark-theme {
+    --bg-color: #0a0a0a;
+    --grid-color: rgba(255, 255, 255, 0.05);
+    --text-main: #ffffff;
+    --text-muted: #888888;
+    --card-bg: rgba(25, 25, 25, 0.6);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --tab-bg: rgba(255, 255, 255, 0.05);
+    --tab-hover: rgba(255, 255, 255, 0.1);
+    --tab-active-bg: #1a1a1a;
+    --input-bg: transparent;
+    --primary: #21D496;
+    --primary-gradient: linear-gradient(135deg, #21D496 0%, #02a157 100%);
+
+    /* Override Bootstrap variables */
+    --bs-body-bg: #0a0a0a;
+    --bs-body-color: #ffffff;
+    --bs-body-color-rgb: 255, 255, 255;
+    --bs-body-bg-rgb: 10, 10, 10;
+    --bs-secondary-color: #888888;
+    --bs-border-color: rgba(255, 255, 255, 0.1);
+    --bs-card-bg: rgba(25, 25, 25, 0.6);
+}
+
+body.light-theme {
+    --bg-color: #f8f9fa;
+    --grid-color: rgba(0, 0, 0, 0.05);
+    --text-main: #111111;
+    --text-muted: #666666;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(0, 0, 0, 0.1);
+    --tab-bg: rgba(0, 0, 0, 0.04);
+    --tab-hover: rgba(0, 0, 0, 0.08);
+    --tab-active-bg: #ffffff;
+    --input-bg: transparent;
+
+    /* Override Bootstrap variables */
+    --bs-body-bg: #f8f9fa;
+    --bs-body-color: #111111;
+    --bs-body-color-rgb: 17, 17, 17;
+    --bs-body-bg-rgb: 248, 249, 250;
+    --bs-secondary-color: #666666;
+    --bs-border-color: rgba(0, 0, 0, 0.1);
+    --bs-card-bg: rgba(255, 255, 255, 0.85);
+}
+
+body {
+    font-family: var(--primary-font), sans-serif !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-size: 14px !important;
+    background-color: var(--bg-color) !important;
+    color: var(--text-main) !important;
+    min-height: 100vh;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden !important;
+    width: 100%;
+    background-image:
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
+}
+
+html {
+    min-height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+button,
+input {
+    font-family: inherit;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.fs-11 {
+    font-size: 11px !important;
+}
+
+.fs-13 {
+    font-size: 13px !important;
+}
+
+.fs-14 {
+    font-size: 14px !important;
+}
+
+.fs-15 {
+    font-size: 15px !important;
+}
+
+.fs-16 {
+    font-size: 16px !important;
+}
+
+.fs-17 {
+    font-size: 17px !important;
+}
+
+.fw-400 {
+    font-weight: 400 !important;
+}
+
+.fw-600 {
+    font-weight: 600 !important;
+}
+
+.txt-white {
+    color: #fff !important;
+}
+
+.txt-red {
+    color: #FF595E !important;
+}
+
+.txt-green {
+    color: #054A91 !important;
+}
+
+.btn-bg-primary {
+    background: var(--primary-gradient);
+    padding: 2px 14px !important;
+    border-radius: 6px !important;
+    margin-left: 12px !important;
+}
+
+.btn-bg-primary-light {
+    background-color: transparent !important;
+    border: 1px solid #054A91;
+    padding: 2px 14px !important;
+    border-radius: 6px !important;
+    margin-left: 12px !important;
+}
+
+.btn-bg-primary img {
+    align-items: center;
+    text-align: center;
+    display: flex;
+    padding: 4px 5px;
+    filter: invert(1) !important;
+}
+
+.bg-white {
+    background-color: var(--card-bg-color) !important;
+}
+
+.bg-red {
+    background-color: #FF595E !important;
+}
+
+.text-color-black {
+    color: var(--text-color) !important;
+}
+
+.text-color-grey {
+    color: var(--text-color-secondary) !important;
+}
+
+/* Prepare animation */
+.dropdown-menu {
+    display: block !important;
+    opacity: 0;
+    transform: translateY(-15px) scale(0.98);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.mat-mdc-tooltip {
+    border-radius: 13px !important;
+    padding: 8px 10px;
+    font-size: 12px;
+}
+
+/* Custom Thin Scrollbar for long data cells */
+::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--grid-line-color) !important;
+    border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-color-secondary) !important;
+    border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-color) !important;
+}
+
+.owl-carousel .owl-item {
+    width: 320px !important;
+}
